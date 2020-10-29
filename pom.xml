@@ -15,6 +15,7 @@
         <module>member-service</module>
         <module>warehouse-service</module>
         <module>coupon-service</module>
+        <module>renren-fast</module>
     </modules>
 
 </project>
