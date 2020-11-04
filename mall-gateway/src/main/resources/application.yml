@@ -3,6 +3,13 @@ spring:
     gateway:
       routes:
         - id: product_route
+          uri: lb://mall-thirdparty
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>/?.*), /$\{segment}
+
+        - id: product_route
           uri: lb://mall-product
           predicates:
             - Path=/api/product/**

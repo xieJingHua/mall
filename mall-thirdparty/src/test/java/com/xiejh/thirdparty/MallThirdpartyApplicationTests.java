@@ -30,7 +30,7 @@ class MallThirdpartyApplicationTests {
 //        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
         // 创建PutObjectRequest对象。
-        PutObjectRequest putObjectRequest = new PutObjectRequest("mall-xiejh", "哈哈.jpg", new File("C:\\Users\\xjh\\Desktop\\scene.jpg"));
+        PutObjectRequest putObjectRequest = new PutObjectRequest("mall-xiejh", "我去.jpg", new File("C:\\Users\\xjh\\Desktop\\scene.jpg"));
 
         // 如果需要上传时设置存储类型与访问权限，请参考以下示例代码。
         // ObjectMetadata metadata = new ObjectMetadata();
