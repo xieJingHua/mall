@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
+import com.xiejh.common.utils.R;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +40,7 @@ public class OssController {
     private String bucket;
 
     @RequestMapping("/oss/policy")
-    protected Map<String, String> policy(HttpServletRequest request, HttpServletResponse response)
+    protected R policy(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
@@ -70,7 +71,7 @@ public class OssController {
             respMap.put("expire", String.valueOf(expireEndTime / 1000));
             // respMap.put("expire", formatISO8601Date(expiration));
 
-            return respMap;
+            return R.ok().put("data",respMap);
         } catch (Exception e) {
             // Assert.fail(e.getMessage());
             System.out.println(e.getMessage());
