@@ -1,7 +1,12 @@
 package com.xiejh.warehouse.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,6 +29,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public Map<Long, Boolean> getSkusHasStock(List<Long> skuIds) {
+        Map<Long, Boolean> result = skuIds.stream().map(skuId -> {
+            Map<String, Object> stock = new HashMap<>(2);
+            stock.put("skuId", skuId);
+            Integer stockNum = this.baseMapper.hasStock(skuId);
+            stock.put("hasStock", stockNum > 0 ? true : false);
+            return stock;
+        }).collect(Collectors.toMap(e -> (Long) e.get("skuId"), e -> (Boolean) e.get("hasStock")));
+        return result;
     }
 
 }

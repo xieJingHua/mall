@@ -13,5 +13,9 @@
         <result property="stockLocked" column="stock_locked"/>
     </resultMap>
 
+    <select id="hasStock" resultType="integer">
+           select sum(stock-stock_locked) from wms_ware_sku where sku_id=#{skuId}
+    </select>
+
 
 </mapper>

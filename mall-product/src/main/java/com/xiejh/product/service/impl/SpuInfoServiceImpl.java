@@ -1,7 +1,10 @@
 package com.xiejh.product.service.impl;
 
 import com.xiejh.common.dto.es.SkuEsModel;
+import com.xiejh.common.utils.R;
 import com.xiejh.product.entity.*;
+import com.xiejh.product.feign.SearchFeignService;
+import com.xiejh.product.feign.WareFeignService;
 import com.xiejh.product.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     private CategoryService  categoryService;
     @Autowired
     private ProductAttrValueService productAttrValueService;
+    @Autowired
+    private WareFeignService wareFeignService;
+    @Autowired
+    private SearchFeignService searchFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -57,12 +64,18 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return attr;
         }).collect(Collectors.toList());
 
+        //发送远程调用，库存系统查询是否有库存
+        List<Long> skuIds = skus.stream().map(e -> e.getSkuId()).collect(Collectors.toList());
+        R<Map<Long, Boolean>> skusHasStockResult = wareFeignService.getSkusHasStock(skuIds);
+        Map<Long, Boolean> stockMap = skusHasStockResult.getData();
+
         List<SkuEsModel> skuModels = skus.stream().map(e -> {
             SkuEsModel skuEsModel = new SkuEsModel();
             BeanUtils.copyProperties(e,skuEsModel);
             skuEsModel.setSkuPrice(e.getPrice());
             skuEsModel.setSkuImg(e.getSkuDefaultImg());
-            //发送远程调用，库存系统查询是否有库存
+            //库存
+            skuEsModel.setHasStock(stockMap.get(e.getSkuId()));
 
             //热度评分,默认0
             skuEsModel.setHotScore(0L);
@@ -79,6 +92,14 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }).collect(Collectors.toList());
 
         //发送给es保存
+        R result = searchFeignService.productUp(upProducts);
+        if(result.getCode()==0){
+            //更新为商品已上架
+            SpuInfoEntity spu = new SpuInfoEntity();
+            spu.setId(spuId);
+            spu.setPublishStatus(1);
+            this.baseMapper.updateById(spu);
+        }
     }
 
 }
