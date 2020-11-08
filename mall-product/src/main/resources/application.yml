@@ -5,6 +5,9 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  redis:
+    host: 47.115.76.70
+    port: 6379
 
   datasource:
     url : jdbc:mysql://47.115.76.70:3306/mall_pms?useUnicode=true&characterEncoding=UTF-8
