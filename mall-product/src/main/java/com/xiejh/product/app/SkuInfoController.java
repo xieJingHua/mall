@@ -46,7 +46,7 @@ public class SkuInfoController {
      */
     @RequestMapping("/info/{skuId}")
     public R info(@PathVariable("skuId") Long skuId){
-		SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+		SkuInfoEntity skuInfo = skuInfoService.getBySkuId(skuId);
 
         return R.ok().put("skuInfo", skuInfo);
     }
