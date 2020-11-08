@@ -1,6 +1,7 @@
-package com.xiejh.product.controller;
+package com.xiejh.product.app;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,32 +11,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiejh.product.entity.SkuSaleAttrValueEntity;
-import com.xiejh.product.service.SkuSaleAttrValueService;
+import com.xiejh.product.entity.CategoryEntity;
+import com.xiejh.product.service.CategoryService;
 import com.xiejh.common.utils.PageUtils;
 import com.xiejh.common.utils.R;
 
 
 
 /**
- * sku销售属性&值
+ * 商品三级分类
  *
  * @author xiejh
  * @email 645236648@qq.com
  * @date 2020-10-30 23:14:33
  */
 @RestController
-@RequestMapping("product/skusaleattrvalue")
-public class SkuSaleAttrValueController {
+@RequestMapping("product/category")
+public class CategoryController {
     @Autowired
-    private SkuSaleAttrValueService skuSaleAttrValueService;
+    private CategoryService categoryService;
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/listTree")
+    public R listTree(){
+        List<CategoryEntity> categoryList = categoryService.listTree();
+        return R.ok().put("list", categoryList);
+    }
 
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = skuSaleAttrValueService.queryPage(params);
+        PageUtils page = categoryService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -44,19 +54,19 @@ public class SkuSaleAttrValueController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-		SkuSaleAttrValueEntity skuSaleAttrValue = skuSaleAttrValueService.getById(id);
+    @RequestMapping("/info/{catId}")
+    public R info(@PathVariable("catId") Long catId){
+		CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("skuSaleAttrValue", skuSaleAttrValue);
+        return R.ok().put("category", category);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody SkuSaleAttrValueEntity skuSaleAttrValue){
-		skuSaleAttrValueService.save(skuSaleAttrValue);
+    public R save(@RequestBody CategoryEntity category){
+		categoryService.save(category);
 
         return R.ok();
     }
@@ -65,8 +75,8 @@ public class SkuSaleAttrValueController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody SkuSaleAttrValueEntity skuSaleAttrValue){
-		skuSaleAttrValueService.updateById(skuSaleAttrValue);
+    public R update(@RequestBody CategoryEntity category){
+		categoryService.updateById(category);
 
         return R.ok();
     }
@@ -75,8 +85,8 @@ public class SkuSaleAttrValueController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		skuSaleAttrValueService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] catIds){
+		categoryService.removeByIds(Arrays.asList(catIds));
 
         return R.ok();
     }

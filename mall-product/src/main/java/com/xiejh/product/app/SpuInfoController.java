@@ -1,4 +1,4 @@
-package com.xiejh.product.controller;
+package com.xiejh.product.app;
 
 import java.util.Arrays;
 import java.util.Map;

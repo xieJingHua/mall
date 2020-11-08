@@ -1,43 +1,41 @@
-package com.xiejh.product.controller;
+package com.xiejh.product.app;
 
 import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiejh.product.entity.BrandEntity;
-import com.xiejh.product.service.BrandService;
+import com.xiejh.product.entity.AttrAttrgroupRelationEntity;
+import com.xiejh.product.service.AttrAttrgroupRelationService;
 import com.xiejh.common.utils.PageUtils;
 import com.xiejh.common.utils.R;
 
-import javax.validation.Valid;
 
 
 /**
- * 品牌
+ * 属性&属性分组关联
  *
  * @author xiejh
  * @email 645236648@qq.com
  * @date 2020-10-30 23:14:33
  */
 @RestController
-@RequestMapping("product/brand")
-public class BrandController {
+@RequestMapping("product/attrattrgrouprelation")
+public class AttrAttrgroupRelationController {
     @Autowired
-    private BrandService brandService;
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = brandService.queryPage(params);
+        PageUtils page = attrAttrgroupRelationService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -46,19 +44,19 @@ public class BrandController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{brandId}")
-    public R info(@PathVariable("brandId") Long brandId){
-		BrandEntity brand = brandService.getById(brandId);
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Long id){
+		AttrAttrgroupRelationEntity attrAttrgroupRelation = attrAttrgroupRelationService.getById(id);
 
-        return R.ok().put("brand", brand);
+        return R.ok().put("attrAttrgroupRelation", attrAttrgroupRelation);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@Valid @RequestBody BrandEntity brand){
-		brandService.save(brand);
+    public R save(@RequestBody AttrAttrgroupRelationEntity attrAttrgroupRelation){
+		attrAttrgroupRelationService.save(attrAttrgroupRelation);
 
         return R.ok();
     }
@@ -67,8 +65,8 @@ public class BrandController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody BrandEntity brand){
-		brandService.updateById(brand);
+    public R update(@RequestBody AttrAttrgroupRelationEntity attrAttrgroupRelation){
+		attrAttrgroupRelationService.updateById(attrAttrgroupRelation);
 
         return R.ok();
     }
@@ -77,8 +75,8 @@ public class BrandController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] brandIds){
-		brandService.removeByIds(Arrays.asList(brandIds));
+    public R delete(@RequestBody Long[] ids){
+		attrAttrgroupRelationService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

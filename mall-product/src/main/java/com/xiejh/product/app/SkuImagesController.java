@@ -1,4 +1,4 @@
-package com.xiejh.product.controller;
+package com.xiejh.product.app;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -10,32 +10,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiejh.product.entity.AttrGroupEntity;
-import com.xiejh.product.service.AttrGroupService;
+import com.xiejh.product.entity.SkuImagesEntity;
+import com.xiejh.product.service.SkuImagesService;
 import com.xiejh.common.utils.PageUtils;
 import com.xiejh.common.utils.R;
 
 
 
 /**
- * 属性分组
+ * sku图片
  *
  * @author xiejh
  * @email 645236648@qq.com
  * @date 2020-10-30 23:14:33
  */
 @RestController
-@RequestMapping("product/attrgroup")
-public class AttrGroupController {
+@RequestMapping("product/skuimages")
+public class SkuImagesController {
     @Autowired
-    private AttrGroupService attrGroupService;
+    private SkuImagesService skuImagesService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrGroupService.queryPage(params);
+        PageUtils page = skuImagesService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -44,19 +44,19 @@ public class AttrGroupController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{attrGroupId}")
-    public R info(@PathVariable("attrGroupId") Long attrGroupId){
-		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Long id){
+		SkuImagesEntity skuImages = skuImagesService.getById(id);
 
-        return R.ok().put("attrGroup", attrGroup);
+        return R.ok().put("skuImages", skuImages);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody AttrGroupEntity attrGroup){
-		attrGroupService.save(attrGroup);
+    public R save(@RequestBody SkuImagesEntity skuImages){
+		skuImagesService.save(skuImages);
 
         return R.ok();
     }
@@ -65,8 +65,8 @@ public class AttrGroupController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrGroupEntity attrGroup){
-		attrGroupService.updateById(attrGroup);
+    public R update(@RequestBody SkuImagesEntity skuImages){
+		skuImagesService.updateById(skuImages);
 
         return R.ok();
     }
@@ -75,8 +75,8 @@ public class AttrGroupController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] attrGroupIds){
-		attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
+    public R delete(@RequestBody Long[] ids){
+		skuImagesService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

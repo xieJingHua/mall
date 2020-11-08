@@ -1,4 +1,4 @@
-package com.xiejh.product.controller;
+package com.xiejh.product.app;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -10,32 +10,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiejh.product.entity.AttrEntity;
-import com.xiejh.product.service.AttrService;
+import com.xiejh.product.entity.CategoryBrandRelationEntity;
+import com.xiejh.product.service.CategoryBrandRelationService;
 import com.xiejh.common.utils.PageUtils;
 import com.xiejh.common.utils.R;
 
 
 
 /**
- * 商品属性
+ * 品牌分类关联
  *
  * @author xiejh
  * @email 645236648@qq.com
  * @date 2020-10-30 23:14:33
  */
 @RestController
-@RequestMapping("product/attr")
-public class AttrController {
+@RequestMapping("product/categorybrandrelation")
+public class CategoryBrandRelationController {
     @Autowired
-    private AttrService attrService;
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrService.queryPage(params);
+        PageUtils page = categoryBrandRelationService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -44,19 +44,19 @@ public class AttrController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{attrId}")
-    public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Long id){
+		CategoryBrandRelationEntity categoryBrandRelation = categoryBrandRelationService.getById(id);
 
-        return R.ok().put("attr", attr);
+        return R.ok().put("categoryBrandRelation", categoryBrandRelation);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
+		categoryBrandRelationService.save(categoryBrandRelation);
 
         return R.ok();
     }
@@ -65,8 +65,8 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    public R update(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
+		categoryBrandRelationService.updateById(categoryBrandRelation);
 
         return R.ok();
     }
@@ -75,8 +75,8 @@ public class AttrController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] attrIds){
-		attrService.removeByIds(Arrays.asList(attrIds));
+    public R delete(@RequestBody Long[] ids){
+		categoryBrandRelationService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
