@@ -11,6 +11,7 @@ public class MallSearchApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MallSearchApplication.class, args);
+        System.out.println("started success");
     }
 
 }
