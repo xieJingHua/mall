@@ -1,6 +1,15 @@
 spring:
   application:
     name: mall-product
+  cache:
+    type: redis
+    redis:
+      #缓存过期时间，毫秒
+      time-to-live: 60000
+      #默认缓存空值，防止缓存穿透
+      cache-null-values: true
+      key-prefix: PRODUCT_
+      use-key-prefix: true
   cloud:
     nacos:
       discovery:
