@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.BoundHashOperations;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -31,6 +33,10 @@ class MallProductApplicationTests {
         brandEntity.setName("小米");
         brandService.save(brandEntity);
         System.out.println("保存成功");
+        //绑定hash操作
+        BoundHashOperations<String, Object, Object> ops = stringRedisTemplate.boundHashOps("key1");
+        Object a = ops.get("a");
+        ops.put("a","b");
     }
 
     @Test
