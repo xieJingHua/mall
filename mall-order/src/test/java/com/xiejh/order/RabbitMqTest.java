@@ -58,11 +58,13 @@ class RabbitMqTest {
 
     @Test
     public void sendMessage(){
-        OrderEntity order = new OrderEntity();
-        order.setMemberId(1l);
-        order.setOrderSn("订单号");
-        order.setBillContent("哈哈哈");
-        rabbitTemplate.convertAndSend("java-exchange","java-queue",order);
-        System.out.println("保存成功");
+        for(int i=0;i<10;i++){
+            OrderEntity order = new OrderEntity();
+            order.setMemberId(Long.valueOf(i));
+            order.setOrderSn("订单号"+i);
+            order.setBillContent("哈哈哈");
+            rabbitTemplate.convertAndSend("java-exchange","java-queue",order);
+            System.out.println("保存成功");
+        }
     }
 }
